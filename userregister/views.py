@@ -11,12 +11,13 @@ from staff.models import ListModel as staff
 import json, random, os
 from django.conf import settings
 from scanner.models import ListModel as scanner
+import secrets
 
 def randomPhone():
     List = ["130", "131", "132", "133", "134", "135", "136", "137", "138", "139",
                "147", "150", "151", "152", "153", "155", "156", "157", "158", "159",
                "186", "187", "188", "189"]
-    return (random.choice(List) + "".join(random.choice("0123456789") for i in range(8)))
+    return (secrets.choice(List) + "".join(secrets.choice("0123456789") for i in range(8)))
 
 randomcity = ["shanghai", "nanjing", "hangzhou", "beijing", "chongqing", "shenzhen", "guangzhou", "suzhou", "hefei",
                 "chengdu", "kunming", "wuhan"]
@@ -104,7 +105,7 @@ def register(request, *args, **kwargs):
                                                  t_code=Md5.md5(str(timezone.now())),
                                                  developer=1, ip=ip)
                             auth.login(request, user)
-                            check_code = random.randint(1000, 9999)
+                            check_code = secrets.SystemRandom().randint(1000, 9999)
                             staff.objects.create(staff_name=str(data['name']),
                                                  staff_type='Admin',
                                                  check_code=check_code,
@@ -128,7 +129,7 @@ def register(request, *args, **kwargs):
                             from company.models import ListModel as company
                             company.objects.create(openid=transaction_code,
                                                    company_name='GreaterWMS',
-                                                   company_city=str(random.choice(randomcity)),
+                                                   company_city=str(secrets.choice(randomcity)),
                                                    company_address='People’s Square # 666 Room 1F',
                                                    company_contact=str(randomPhone()),
                                                    company_manager='Elvis.Shi',
@@ -137,7 +138,7 @@ def register(request, *args, **kwargs):
                             from warehouse.models import ListModel as warehouse
                             warehouse.objects.create(openid=transaction_code,
                                                      warehouse_name='Center Warehouse',
-                                                     warehouse_city=str(random.choice(randomcity)),
+                                                     warehouse_city=str(secrets.choice(randomcity)),
                                                      warehouse_address='People’s Square # 666 Room 2F',
                                                      warehouse_contact=str(randomPhone()),
                                                      warehouse_manager='Tim.Yao',
@@ -148,10 +149,10 @@ def register(request, *args, **kwargs):
                             for supplier_data in range(1, 42):
                                 demo_data = supplier(openid=transaction_code,
                                                      supplier_name='Supplier Name-' + str(supplier_data),
-                                                     supplier_city=str(random.choice(randomcity)),
+                                                     supplier_city=str(secrets.choice(randomcity)),
                                                      supplier_address='Address-' + str(supplier_data),
                                                      supplier_contact=str(randomPhone()),
-                                                     supplier_manager=str(random.choice(randomname)),
+                                                     supplier_manager=str(secrets.choice(randomname)),
                                                      creater='DemoData'
                                                      )
                                 supplier_data_list.append(demo_data)
@@ -161,10 +162,10 @@ def register(request, *args, **kwargs):
                             for customer_data in range(1, 42):
                                 demo_data = customer(openid=transaction_code,
                                                      customer_name='Customer Name-' + str(customer_data),
-                                                     customer_city=str(random.choice(randomcity)),
+                                                     customer_city=str(secrets.choice(randomcity)),
                                                      customer_address='Address-' + str(customer_data),
                                                      customer_contact=str(randomPhone()),
-                                                     customer_manager=str(random.choice(randomname)),
+                                                     customer_manager=str(secrets.choice(randomname)),
                                                      creater='DemoData'
                                                      )
                                 customer_data_list.append(demo_data)
@@ -174,7 +175,7 @@ def register(request, *args, **kwargs):
                                 demo_data = staff(openid=transaction_code,
                                                   staff_name=staff_data,
                                                   staff_type=str(randomStaffType()),
-                                                  check_code=random.randint(1000, 9999)
+                                                  check_code=secrets.SystemRandom().randint(1000, 9999)
                                                   )
                                 staff_data_list.append(demo_data)
                             staff.objects.bulk_create(staff_data_list, batch_size=100)
@@ -183,7 +184,7 @@ def register(request, *args, **kwargs):
                             for driver_data in range(1, 42):
                                 demo_data = driver(openid=transaction_code,
                                                    driver_name='Driver Name-' + str(driver_data),
-                                                   license_plate="".join(random.choice("0123456789") for i in range(8)),
+                                                   license_plate="".join(secrets.choice("0123456789") for i in range(8)),
                                                    contact=str(randomPhone()),
                                                    creater='DemoData'
                                                    )
@@ -194,8 +195,8 @@ def register(request, *args, **kwargs):
                             for capital_data in range(1, 42):
                                 demo_data = capital(openid=transaction_code,
                                                     capital_name='Capital Name-' + str(capital_data),
-                                                    capital_qty=random.randint(1, 100),
-                                                    capital_cost=random.randint(100, 10000),
+                                                    capital_qty=secrets.SystemRandom().randint(1, 100),
+                                                    capital_cost=secrets.SystemRandom().randint(100, 10000),
                                                     creater='DemoData'
                                                     )
                                 capital_data_list.append(demo_data)
@@ -248,7 +249,7 @@ def register(request, *args, **kwargs):
                             binset_data_list = [
                                 binset(openid=transaction_code,
                                        bin_name='A010101',
-                                       bin_size=str(random.choice(randombinsize)),
+                                       bin_size=str(secrets.choice(randombinsize)),
                                        bin_property="Normal",
                                        empty_label=True,
                                        creater='DemoData',
@@ -256,7 +257,7 @@ def register(request, *args, **kwargs):
                                        ),
                                 binset(openid=transaction_code,
                                        bin_name='A010102',
-                                       bin_size=str(random.choice(randombinsize)),
+                                       bin_size=str(secrets.choice(randombinsize)),
                                        bin_property="Normal",
                                        empty_label=True,
                                        creater='DemoData',
@@ -264,7 +265,7 @@ def register(request, *args, **kwargs):
                                        ),
                                 binset(openid=transaction_code,
                                        bin_name='A010103',
-                                       bin_size=str(random.choice(randombinsize)),
+                                       bin_size=str(secrets.choice(randombinsize)),
                                        bin_property="Normal",
                                        empty_label=True,
                                        creater='DemoData',
@@ -272,7 +273,7 @@ def register(request, *args, **kwargs):
                                        ),
                                 binset(openid=transaction_code,
                                        bin_name='B010101',
-                                       bin_size=str(random.choice(randombinsize)),
+                                       bin_size=str(secrets.choice(randombinsize)),
                                        bin_property="Inspection",
                                        empty_label=True,
                                        creater='DemoData',
@@ -280,7 +281,7 @@ def register(request, *args, **kwargs):
                                        ),
                                 binset(openid=transaction_code,
                                        bin_name='B010102',
-                                       bin_size=str(random.choice(randombinsize)),
+                                       bin_size=str(secrets.choice(randombinsize)),
                                        bin_property="Inspection",
                                        empty_label=True,
                                        creater='DemoData',
@@ -288,7 +289,7 @@ def register(request, *args, **kwargs):
                                        ),
                                 binset(openid=transaction_code,
                                        bin_name='B010103',
-                                       bin_size=str(random.choice(randombinsize)),
+                                       bin_size=str(secrets.choice(randombinsize)),
                                        bin_property="Inspection",
                                        empty_label=True,
                                        creater='DemoData',
@@ -296,7 +297,7 @@ def register(request, *args, **kwargs):
                                        ),
                                 binset(openid=transaction_code,
                                        bin_name='B020101',
-                                       bin_size=str(random.choice(randombinsize)),
+                                       bin_size=str(secrets.choice(randombinsize)),
                                        bin_property="Holding",
                                        empty_label=True,
                                        creater='DemoData',
@@ -304,7 +305,7 @@ def register(request, *args, **kwargs):
                                        ),
                                 binset(openid=transaction_code,
                                        bin_name='B020102',
-                                       bin_size=str(random.choice(randombinsize)),
+                                       bin_size=str(secrets.choice(randombinsize)),
                                        bin_property="Holding",
                                        empty_label=True,
                                        creater='DemoData',
@@ -312,7 +313,7 @@ def register(request, *args, **kwargs):
                                        ),
                                 binset(openid=transaction_code,
                                        bin_name='B020103',
-                                       bin_size=str(random.choice(randombinsize)),
+                                       bin_size=str(secrets.choice(randombinsize)),
                                        bin_property="Holding",
                                        empty_label=True,
                                        creater='DemoData',
@@ -320,7 +321,7 @@ def register(request, *args, **kwargs):
                                        ),
                                 binset(openid=transaction_code,
                                        bin_name='B030101',
-                                       bin_size=str(random.choice(randombinsize)),
+                                       bin_size=str(secrets.choice(randombinsize)),
                                        bin_property="Damage",
                                        empty_label=True,
                                        creater='DemoData',
@@ -328,7 +329,7 @@ def register(request, *args, **kwargs):
                                        ),
                                 binset(openid=transaction_code,
                                        bin_name='B030102',
-                                       bin_size=str(random.choice(randombinsize)),
+                                       bin_size=str(secrets.choice(randombinsize)),
                                        bin_property="Damage",
                                        empty_label=True,
                                        creater='DemoData',
@@ -336,7 +337,7 @@ def register(request, *args, **kwargs):
                                        ),
                                 binset(openid=transaction_code,
                                        bin_name='B030103',
-                                       bin_size=str(random.choice(randombinsize)),
+                                       bin_size=str(secrets.choice(randombinsize)),
                                        bin_property="Damage",
                                        empty_label=True,
                                        creater='DemoData',
@@ -432,33 +433,33 @@ def register(request, *args, **kwargs):
                             goods_data_list = []
                             for goods_data in range(1, 42):
                                 bar_code = Md5.md5("A0000" + str(goods_data))
-                                goods_w = round(random.uniform(10, 1000), 2),
-                                goods_d = round(random.uniform(10, 1000), 2),
-                                goods_h = round(random.uniform(10, 1000), 2),
-                                goods_cost = round(random.uniform(10, 1000), 2),
-                                goods_price = round(random.uniform(10, 1000), 2),
+                                goods_w = round(secrets.SystemRandom().uniform(10, 1000), 2),
+                                goods_d = round(secrets.SystemRandom().uniform(10, 1000), 2),
+                                goods_h = round(secrets.SystemRandom().uniform(10, 1000), 2),
+                                goods_cost = round(secrets.SystemRandom().uniform(10, 1000), 2),
+                                goods_price = round(secrets.SystemRandom().uniform(10, 1000), 2),
                                 while True:
                                     if goods_cost[0] >= goods_price[0]:
-                                        goods_price = round(random.uniform(10, 1000), 2),
+                                        goods_price = round(secrets.SystemRandom().uniform(10, 1000), 2),
                                     else:
                                         break
                                 demo_data = goods(openid=transaction_code,
                                                   goods_code="A0000" + str(goods_data),
                                                   goods_desc="Goods Desc-" + str(goods_data),
-                                                  goods_supplier='Supplier Name-' + str(random.randint(1, 42)),
-                                                  goods_weight=random.randint(100, 10000),
+                                                  goods_supplier='Supplier Name-' + str(secrets.SystemRandom().randint(1, 42)),
+                                                  goods_weight=secrets.SystemRandom().randint(100, 10000),
                                                   goods_w=goods_w[0],
                                                   goods_d=goods_d[0],
                                                   goods_h=goods_h[0],
                                                   unit_volume=round((int(goods_w[0]) * int(goods_d[0]) * int(
                                                       goods_h[0])) / 1000000000, 4),
-                                                  goods_unit=random.choice(randomunit),
-                                                  goods_class=random.choice(randomclass),
-                                                  goods_brand='Brand Name-' + str(random.randint(1, 42)),
-                                                  goods_color=random.choice(randomcolor),
-                                                  goods_shape=random.choice(randomshape),
-                                                  goods_specs=random.choice(randomspecs),
-                                                  goods_origin=random.choice(randomcity),
+                                                  goods_unit=secrets.choice(randomunit),
+                                                  goods_class=secrets.choice(randomclass),
+                                                  goods_brand='Brand Name-' + str(secrets.SystemRandom().randint(1, 42)),
+                                                  goods_color=secrets.choice(randomcolor),
+                                                  goods_shape=secrets.choice(randomshape),
+                                                  goods_specs=secrets.choice(randomspecs),
+                                                  goods_origin=secrets.choice(randomcity),
                                                   goods_cost=goods_cost[0],
                                                   goods_price=goods_price[0],
                                                   bar_code=bar_code,
@@ -476,9 +477,9 @@ def register(request, *args, **kwargs):
                                     demo_data = freight(openid=transaction_code,
                                                         send_city=sender,
                                                         receiver_city=receiver,
-                                                        weight_fee=random.randint(10, 20),
-                                                        volume_fee=random.randint(100, 200),
-                                                        min_payment=random.randint(250, 300),
+                                                        weight_fee=secrets.SystemRandom().randint(10, 20),
+                                                        volume_fee=secrets.SystemRandom().randint(100, 200),
+                                                        min_payment=secrets.SystemRandom().randint(250, 300),
                                                         transportation_supplier="Supplier",
                                                         creater="DemoData"
                                                         )
