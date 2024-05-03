@@ -29,6 +29,11 @@ class StockListModel(models.Model):
         verbose_name_plural = "Stock List"
         ordering = ['-id']
 
+    def __str__(self):
+        model_name = self.__class__.__name__
+        fields_str = ", ".join((f"{field.name}={getattr(self, field.name)}" for field in self._meta.fields))
+        return f"{model_name}({fields_str})"
+
 class StockBinModel(models.Model):
     bin_name = models.CharField(max_length=255, verbose_name="Bin Name")
     goods_code = models.CharField(max_length=255, verbose_name="Goods Code")
@@ -48,3 +53,8 @@ class StockBinModel(models.Model):
         verbose_name = 'Stock Bin'
         verbose_name_plural = "Stock Bin"
         ordering = ['-id']
+
+    def __str__(self):
+        model_name = self.__class__.__name__
+        fields_str = ", ".join((f"{field.name}={getattr(self, field.name)}" for field in self._meta.fields))
+        return f"{model_name}({fields_str})"

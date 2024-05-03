@@ -22,6 +22,11 @@ class DnListModel(models.Model):
         verbose_name_plural = "DN List"
         ordering = ['-id']
 
+    def __str__(self):
+        model_name = self.__class__.__name__
+        fields_str = ", ".join((f"{field.name}={getattr(self, field.name)}" for field in self._meta.fields))
+        return f"{model_name}({fields_str})"
+
 class DnDetailModel(models.Model):
     dn_code = models.CharField(max_length=255, verbose_name="DN Code")
     dn_status = models.BigIntegerField(default=1, verbose_name="DN Status")
@@ -52,6 +57,11 @@ class DnDetailModel(models.Model):
         verbose_name_plural = "DN Detail"
         ordering = ['-id']
 
+    def __str__(self):
+        model_name = self.__class__.__name__
+        fields_str = ", ".join((f"{field.name}={getattr(self, field.name)}" for field in self._meta.fields))
+        return f"{model_name}({fields_str})"
+
 class PickingListModel(models.Model):
     dn_code = models.CharField(max_length=255, verbose_name="DN Code")
     bin_name = models.CharField(max_length=255, verbose_name="Bin Name")
@@ -70,3 +80,8 @@ class PickingListModel(models.Model):
         verbose_name = 'Picking List'
         verbose_name_plural = "Picking List"
         ordering = ['-id']
+
+    def __str__(self):
+        model_name = self.__class__.__name__
+        fields_str = ", ".join((f"{field.name}={getattr(self, field.name)}" for field in self._meta.fields))
+        return f"{model_name}({fields_str})"

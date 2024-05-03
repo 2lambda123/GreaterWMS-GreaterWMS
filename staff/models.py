@@ -16,6 +16,11 @@ class ListModel(models.Model):
         verbose_name_plural = "Staff"
         ordering = ['staff_name']
 
+    def __str__(self):
+        model_name = self.__class__.__name__
+        fields_str = ", ".join((f"{field.name}={getattr(self, field.name)}" for field in self._meta.fields))
+        return f"{model_name}({fields_str})"
+
 class TypeListModel(models.Model):
     staff_type = models.CharField(max_length=255, verbose_name="Staff Type")
     openid = models.CharField(max_length=255, verbose_name="Openid")
@@ -28,3 +33,8 @@ class TypeListModel(models.Model):
         verbose_name = 'Staff Type'
         verbose_name_plural = "Staff Type"
         ordering = ['staff_type']
+
+    def __str__(self):
+        model_name = self.__class__.__name__
+        fields_str = ", ".join((f"{field.name}={getattr(self, field.name)}" for field in self._meta.fields))
+        return f"{model_name}({fields_str})"

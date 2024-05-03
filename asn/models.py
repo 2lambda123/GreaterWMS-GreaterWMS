@@ -21,6 +21,11 @@ class AsnListModel(models.Model):
         verbose_name_plural = "ASN List"
         ordering = ['-id']
 
+    def __str__(self):
+        model_name = self.__class__.__name__
+        fields_str = ", ".join((f"{field.name}={getattr(self, field.name)}" for field in self._meta.fields))
+        return f"{model_name}({fields_str})"
+
 class AsnDetailModel(models.Model):
     asn_code = models.CharField(max_length=255, verbose_name="ASN Code")
     asn_status = models.BigIntegerField(default=1, verbose_name="ASN Status")
@@ -47,4 +52,9 @@ class AsnDetailModel(models.Model):
         verbose_name = 'ASN Detail'
         verbose_name_plural = "ASN Detail"
         ordering = ['-id']
+
+    def __str__(self):
+        model_name = self.__class__.__name__
+        fields_str = ", ".join((f"{field.name}={getattr(self, field.name)}" for field in self._meta.fields))
+        return f"{model_name}({fields_str})"
 
